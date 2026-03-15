@@ -171,7 +171,12 @@ Si te interesa ayudar, genial. Haz un fork, crea una rama para tu idea, haz comm
 
 ## Créditos
 
-Este proyecto lo desarrollaron Emmanuel Cifuentes, Camilo Mitnick, Valeria Taborda, Salvador Aponte y Juan José Guarín.
+Este proyecto lo desarrollaron 
+Emmanuel Cifuentes
+Camilo Mitnick
+Valeria Taborda
+Salvador Aponte
+Juan José Guarín.
 
 ---
 
