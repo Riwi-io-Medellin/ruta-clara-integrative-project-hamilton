@@ -1,0 +1,19 @@
+{
+  "name": "ruta-clara",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  },
+  "dependencies": {
+    "axios": "^1.13.6",
+    "html5-qrcode": "^2.3.8",
+    "socket.io-client": "^4.8.3"
+  }
+}

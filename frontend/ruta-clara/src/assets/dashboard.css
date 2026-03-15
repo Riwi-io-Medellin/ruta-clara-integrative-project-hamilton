@@ -1,0 +1,333 @@
+/* ── Layout principal ── */
+#db-app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100dvh;
+}
+
+/* ── Sidebar ── */
+#db-sidebar {
+  background: var(--navy);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+.db-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.db-logo em { color: var(--amber); font-style: normal; }
+.db-logo-icon {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--amber), var(--purple));
+}
+.db-sidebar-card {
+  background: rgba(255,255,255,.02);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.db-nav { list-style: none; flex: 1; padding: 6px 0; }
+.db-nav li { margin-bottom: .5rem; display: block; }
+.db-nav a {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .65rem 0.9rem; border-radius: 8px;
+  color: rgba(255,255,255,0.85); text-decoration: none;
+  cursor: pointer; font-size: .95rem; font-weight: 600;
+  letter-spacing: .2px;
+  transition: background .18s, color .18s, transform .18s;
+  border-left: 4px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+.db-nav a:hover  { background: rgba(255,255,255,0.04); color: #fff; transform: translateX(2px); }
+.db-nav a.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff; font-weight: 700;
+  padding: .6rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+  border-left-color: var(--amber);
+}
+.db-sidebar-footer {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.35);
+  font-size: .8rem; font-weight: 700;
+}
+
+/* Dashboard Notification Badge */
+.db-notif-badge {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  background: #ef4444;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  animation: db-badge-pulse 2s infinite;
+}
+
+@keyframes db-badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ── Main ── */
+#db-main { overflow-y: auto; padding: 1.75rem; position: relative; }
+
+/* ── Page header ── */
+.db-ph {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 1.75rem; padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--border);
+}
+/* Ensure on wide screens the title appears on the left and actions on the right
+   even if the DOM order has actions first. Mobile rules (absolute positioning)
+   will continue to place actions top-right. */
+.db-ph .db-ph-actions { order: 2; }
+.db-ph > div:last-child { order: 1; }
+.db-ph h1 { font-size: 2rem; font-weight: 700; color: var(--navy); }
+.db-ph h1 { display: flex; align-items: center; gap: .5rem; }
+.section-emoji { display: inline-block; font-size: 1.35rem; line-height: 1; margin-right: .35rem; }
+.db-ph p  { font-size: .9rem; color: var(--tsoft); margin-top: .2rem; font-weight: 600; }
+.db-ph-actions { display: flex; gap: .75rem; }
+
+/* Mobile menu toggle (hidden on desktop) */
+.db-mobile-toggle {
+  display: none;
+  background: #0F2044; border: none; color: rgba(255,255,255,0.95);
+  font-size: 1.25rem; padding: 6px 8px; margin-right: .5rem;
+  border-radius: 8px; cursor: pointer;
+}
+.db-mobile-toggle:focus { outline: 2px solid rgba(255,255,255,0.12); }
+
+/* ── Botones ── */
+.db-btn {
+  padding: .5rem 1.1rem; border: none; border-radius: 10px;
+  cursor: pointer; font-size: .875rem; font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  transition: all .2s; display: inline-flex; align-items: center; gap: .4rem;
+}
+.db-btn:active { transform: none; }
+.db-btn:focus,
+.db-btn:focus-visible {
+  outline: 2px solid rgba(0,0,0,0.08);
+  outline-offset: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.db-btn-primary { background: var(--navy); color: #fff; }
+.db-btn-primary:hover { background: #1A3260; box-shadow: 0 4px 12px rgba(15,32,68,.25); }
+.db-btn-secondary {
+  background: var(--grayb); color: var(--tmid);
+  border: 1.5px solid var(--border);
+}
+.db-btn-secondary:hover { background: #E5E7EB; }
+.db-btn-sm { padding: .25rem .7rem; font-size: .75rem; border-radius: 8px; }
+
+/* ── Cards grid ── */
+.db-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.1rem; margin-bottom: 1.75rem;
+}
+.db-card {
+  background: #fff; border-radius: 14px; padding: 1.1rem;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  transition: all .25s; position: relative; overflow: hidden;
+}
+.db-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--amber), transparent);
+}
+.db-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,.10); transform: translateY(-2px); }
+.db-card-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: .75rem;
+}
+.db-card-title {
+  font-size: .75rem; color: var(--tsoft); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+}
+
+
+.db-nav a:focus,
+.db-nav a:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.18);
+  outline-offset: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.db-nav a.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff; font-weight: 700;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+  border-left-color: var(--amber);
+}
+.db-nav a.active:focus,
+.db-nav a.active:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.18);
+  outline-offset: 2px;
+}
+
+.db-section-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem; padding-bottom: .875rem;
+  border-bottom: 1.5px solid var(--border);
+}
+.db-section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+
+/* ── Gráfico de barras ── */
+.db-chart {
+  height: 240px; display: flex; align-items: flex-end;
+  justify-content: space-around; gap: 1rem;
+  padding: 1.25rem 0 2rem;
+}
+.db-bar {
+  flex: 1; border-radius: 8px 8px 0 0; min-height: 20px;
+  transition: filter .2s; position: relative;
+  background: linear-gradient(180deg, var(--blue), var(--blub));
+  border: 1.5px solid var(--border);
+}
+.db-bar:hover { filter: brightness(1.08); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.db-bar-val {
+  position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
+  font-size: .9rem; font-weight: 700; color: var(--navy); white-space: nowrap;
+}
+.db-bar-lbl {
+  position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%);
+  font-size: .72rem; color: var(--tsoft); font-weight: 700; white-space: nowrap;
+}
+
+/* ── Tabla ── */
+.db-table-wrap { overflow-x: auto; }
+.db-table { width: 100%; border-collapse: collapse; }
+.db-table th {
+  background: var(--grayb); padding: .8rem 1rem; text-align: left;
+  font-size: .85rem; font-weight: 700; letter-spacing: .4px;
+  color: var(--tmid); border-bottom: 1.5px solid var(--border);
+}
+.db-table td {
+  padding: .8rem 1rem; border-bottom: 1px solid #F3F4F6;
+  font-size: .875rem; color: var(--text);
+}
+.db-table tr:hover td { background: var(--grayb); }
+
+/* ── Status badges ── */
+.db-status {
+  display: inline-block; padding: .2rem .75rem;
+  border-radius: 20px; font-size: .75rem; font-weight: 700;
+}
+.db-status-ok      { background: var(--grnb);  color: var(--green);  }
+.db-status-pending { background: var(--orab);  color: var(--orange); }
+.db-status-error   { background: #FEF2F2;       color: #DC2626;       }
+.db-status-off     { background: var(--grayb); color: var(--slate);  }
+
+/* ── Animación ── */
+@keyframes dbFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.db-fade { animation: dbFade .3s ease forwards; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  #db-app { grid-template-columns: 1fr; }
+  #db-sidebar {
+    position: fixed; left: 0; width: 250px;
+    height: 100dvh; z-index: 1000;
+    transform: translateX(-260px);
+    transition: transform .28s ease;
+    will-change: transform;
+  }
+  #db-sidebar.open { transform: translateX(0); }
+  #db-main { padding: 1rem; position: relative; }
+  .db-cards { grid-template-columns: 1fr 1fr; }
+  .db-ph { flex-direction: column; gap: .75rem; position: relative; padding-right: 72px; padding-left: 56px; }
+  .db-mobile-toggle { display: inline-flex; align-items: center; position: absolute; left: 14px; top: 14px; z-index: 995; margin-right: 0; }
+  .db-sidebar-card { padding-left: 8px; padding-right: 8px; }
+}
+@media (max-width: 420px) {
+  .db-cards { grid-template-columns: 1fr; }
+}
+.db-nav a .nav-emoji {
+  display: inline-block; width: 1.25rem; text-align: center;
+  font-size: 1.05rem; line-height: 1; margin-right: .5rem; transform: translateY(1px);
+}
+.db-nav a .nav-label { display: inline-block; vertical-align: middle; white-space: nowrap; }
+
+/* Ensure active pill fills the sidebar card width and centers content */
+.db-sidebar-card { padding: 12px; }
+.db-nav a { align-items: center; }
+.db-nav a .nav-label { margin-right: 6px; }
+
+/* Backdrop for mobile sidebar */
+#db-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  opacity: 0; visibility: hidden; transition: opacity .18s ease;
+  z-index: 990;
+}
+#db-backdrop.visible { opacity: 1; visibility: visible; }
+
+/* Close button inside sidebar (mobile) */
+.db-sidebar-close {
+  display: none; position: absolute; top: 12px; right: 12px;
+  background: transparent; border: none; color: #fff; font-size: 1.05rem;
+  padding: 6px; cursor: pointer; border-radius: 8px;
+}
+.db-sidebar-close:focus { outline: 2px solid rgba(255,255,255,0.12); }
+
+@media (max-width: 768px) {
+  .db-sidebar-close { display: inline-flex; }
+  #db-sidebar { padding-top: 2.5rem; }
+}
+
+/* Mobile: pin logout to top-right and place title below */
+@media (max-width: 768px) {
+  .db-ph { padding-right: 0; padding-left: 0; flex-direction: column; align-items: flex-start; gap: .5rem; position: relative; }
+  .db-ph > div { display: block; }
+  .db-ph > div h1 { display: flex; align-items: center; gap: .5rem; }
+
+  /* Pin the actions (logout) to the top-right, push title down */
+  .db-ph .db-ph-actions {
+    position: absolute; top: 8px; right: 14px; display: flex; gap: .5rem; z-index: 20;
+  }
+  .db-ph > div:last-child { margin-top: 44px; padding-left: 14px; text-align: left; }
+  .db-ph .db-ph-actions .db-btn { padding: .45rem .9rem; font-size: .88rem; }
+}
+
+/* Forzar colores claros en sidebar: texto base ligero, hover/activo blanco puro.
+   Evitar fondos sólidos blancos que oculten el texto. */
+#db-sidebar .db-nav a,
+#db-sidebar .db-nav a:visited {
+  color: rgba(255,255,255,0.85) !important;
+  background: transparent !important;
+}
+#db-sidebar .db-nav a:hover,
+#db-sidebar .db-nav a:focus {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.06) !important;
+}
+#db-sidebar .db-nav a.active {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.12) !important;
+  border-left-color: var(--amber) !important;
+}
