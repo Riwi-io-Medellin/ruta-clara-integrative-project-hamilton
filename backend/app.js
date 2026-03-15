@@ -48,7 +48,6 @@ app.use('/api/transfer', transferRoutes)
 app.use("/api", cleaningRoutes);
 app.use('/api/chat', chatRoutes)
 
-// ─── Socket.io Events ───────────────────────────────────────
 io.on('connection', (socket) => {
     console.log(`[SOCKET] Usuario conectado: ${socket.id}`)
 

@@ -1,7 +1,7 @@
 :root{
   --bg: #F5F5F5;
-  --primary: #2D3E5F; /* header / primary dark */
-  --accent: #FBBF24;  /* yellow accent */
+  --primary: #2D3E5F;
+  --accent: #FBBF24; 
   --muted: #9CA3AF;
   --card-bg: #FFFFFF;
   --cta-blue: #2563EB;
