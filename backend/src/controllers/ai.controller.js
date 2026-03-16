@@ -1,4 +1,4 @@
-import ai_service from '../services/openai.service.js'
+import ai_service from '../services/groq.service.js'
 import { supabase } from '../config/db.js'
 
 // Mejorar clasificación de un reporte
@@ -13,7 +13,6 @@ export const improve_report = async (req, res) => {
       })
     }
 
-    // Obtener datos de la tarea
     const { data: tarea, error: tareaError } = await supabase
       .from('tareas')
       .select(`
@@ -30,7 +29,6 @@ export const improve_report = async (req, res) => {
       })
     }
 
-    // Enviar a IA para análisis
     const analisis = await ai_service.improve_report_classification({
       tipo_dano: tarea.tipo_dano,
       activo: tarea.activos?.etiqueta || 'Desconocido',
@@ -45,13 +43,10 @@ export const improve_report = async (req, res) => {
       })
     }
 
-    // Actualizar prioridad en la tarea si cambió significativamente
     if (analisis.analisis_ia?.prioridad) {
       await supabase
         .from('tareas')
-        .update({ 
-          prioridad_ia: analisis.analisis_ia.prioridad 
-        })
+        .update({ prioridad_ia: analisis.analisis_ia.prioridad })
         .eq('id_tarea', tarea_id)
     }
 
@@ -71,7 +66,6 @@ export const get_optimized_task_order = async (req, res) => {
   try {
     const { zona_id } = req.query
 
-    // Obtener tareas pendientes
     const query = supabase
       .from('tareas')
       .select(`
@@ -89,21 +83,13 @@ export const get_optimized_task_order = async (req, res) => {
     const { data: tareas, error: tareasError } = await query
 
     if (tareasError) {
-      return res.status(500).json({ 
-        success: false, 
-        error: tareasError.message 
-      })
+      return res.status(500).json({ success: false, error: tareasError.message })
     }
 
     if (tareas.length === 0) {
-      return res.json({
-        success: true,
-        mensaje: 'No hay tareas pendientes',
-        tareas: []
-      })
+      return res.json({ success: true, mensaje: 'No hay tareas pendientes', tareas: [] })
     }
 
-    // Transformar datos para IA
     const tareasFormatted = tareas.map(t => ({
       id_tarea: t.id_tarea,
       tipo_dano: t.tipo_dano,
@@ -112,7 +98,6 @@ export const get_optimized_task_order = async (req, res) => {
       activo: t.activos?.[0]?.etiqueta || 'Desconocido'
     }))
 
-    // Enviar a IA para optimización
     const optimizacion = await ai_service.optimize_task_order(tareasFormatted)
 
     res.json({
@@ -129,7 +114,6 @@ export const get_optimized_task_order = async (req, res) => {
 // Sugerir órdenes de compra
 export const suggest_purchases = async (req, res) => {
   try {
-    // Obtener inventario
     const { data: repuestos, error: repuestosError } = await supabase
       .from('repuestos')
       .select(`
@@ -139,24 +123,16 @@ export const suggest_purchases = async (req, res) => {
         stock_minimo,
         categorias_repuestos(nombre)
       `)
-      .lt('stock_actual', 50) // Solo los que están bajo
+      .lt('stock_actual', 50)
 
     if (repuestosError) {
-      return res.status(500).json({ 
-        success: false, 
-        error: repuestosError.message 
-      })
+      return res.status(500).json({ success: false, error: repuestosError.message })
     }
 
     if (repuestos.length === 0) {
-      return res.json({
-        success: true,
-        mensaje: 'Todos los repuestos tienen stock suficiente',
-        sugerencias: []
-      })
+      return res.json({ success: true, mensaje: 'Todos los repuestos tienen stock suficiente', sugerencias: [] })
     }
 
-    // Enviar a IA para sugerencias
     const sugerencias = await ai_service.suggest_purchase_orders(repuestos)
 
     res.json({
@@ -176,25 +152,19 @@ export const improve_description = async (req, res) => {
     const { descripcion, tipo_dano, activo, zona } = req.body
 
     if (!descripcion || descripcion.trim().length === 0) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Falta la descripción' 
-      })
+      return res.status(400).json({ success: false, error: 'Falta la descripción' })
     }
 
-    // Validar que OpenAI API KEY esté configurada
-    if (!process.env.OPENAI_API_KEY) {
-      console.error('[Controller] OPENAI_API_KEY no está configurada')
+    if (!process.env.GROQ_API_KEY) {
+      console.error('[Controller] GROQ_API_KEY no está configurada')
       return res.status(503).json({
         success: false,
-        error: 'Servicio de IA no disponible. Configura OPENAI_API_KEY en .env',
-        detail: 'OPENAI_API_KEY no configurada'
+        error: 'Servicio de IA no disponible. Configura GROQ_API_KEY en .env'
       })
     }
 
     console.log('[improveDescription] Enviando a IA:', { descripcion, tipo_dano, activo, zona })
 
-    // Enviar a IA para mejora de descripción
     const mejora = await ai_service.improve_report_description(
       descripcion.trim(),
       {
@@ -224,8 +194,7 @@ export const improve_description = async (req, res) => {
     console.error('[improveDescription] Error:', err.message, err)
     res.status(500).json({ 
       success: false, 
-      error: err.message || 'Error interno del servidor',
-      detail: 'Error al procesar la solicitud'
+      error: err.message || 'Error interno del servidor'
     })
   }
 }
@@ -236,4 +205,3 @@ export default {
   suggest_purchases,
   improve_description
 }
-
